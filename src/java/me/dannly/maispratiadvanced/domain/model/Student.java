@@ -4,9 +4,6 @@
  */
 package me.dannly.maispratiadvanced.domain.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 /**
  *
  * @author vinix
@@ -15,15 +12,15 @@ public class Student extends Person {
     
     private Double score;
     
-    public Student(int id, LocalDateTime createdAt) {
+    public Student(int id, Long createdAt) {
         super(id, createdAt);
     }
     
-    public Student(Integer id, String name, LocalDateTime createdAt, LocalDate birth, LocalDateTime lastModified, Long phone, Short age) {
+    public Student(Integer id, String name, Long createdAt, Long birth, Long lastModified, Long phone, Short age) {
         super(id, name, createdAt, birth, lastModified, phone, age);
     }
     
-    public Student(Integer id, String name, LocalDateTime createdAt, LocalDate birth, LocalDateTime lastModified, Long phone, Short age, Double score) {
+    public Student(Integer id, String name, Long createdAt, Long birth, Long lastModified, Long phone, Short age, Double score) {
         super(id, name, createdAt, birth, lastModified, phone, age);
         this.score = score;
     }

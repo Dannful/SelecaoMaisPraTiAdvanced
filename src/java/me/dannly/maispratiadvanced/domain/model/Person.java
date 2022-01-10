@@ -15,18 +15,18 @@ public class Person {
 
     private final Integer id;
     private String name;
-    private final LocalDateTime createdAt;
-    private LocalDate birth;
-    private LocalDateTime lastModified;
+    private final Long createdAt;
+    private Long birth;
+    private Long lastModified;
     private Long phone;
     private Short age;
 
-    public Person(Integer id, LocalDateTime createdAt) {
+    public Person(Integer id, Long createdAt) {
         this.id = id;
         this.createdAt = createdAt;
     }
 
-    public Person(Integer id, String name, LocalDateTime createdAt, LocalDate birth, LocalDateTime lastModified, Long phone, Short age) {
+    public Person(Integer id, String name, Long createdAt, Long birth, Long lastModified, Long phone, Short age) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
@@ -40,7 +40,7 @@ public class Person {
         return id;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
@@ -52,19 +52,19 @@ public class Person {
         this.name = name;
     }
 
-    public LocalDate getBirth() {
+    public Long getBirth() {
         return birth;
     }
 
-    public void setBirth(LocalDate birth) {
+    public void setBirth(Long birth) {
         this.birth = birth;
     }
 
-    public LocalDateTime getLastModified() {
+    public Long getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(LocalDateTime lastModified) {
+    public void setLastModified(Long lastModified) {
         this.lastModified = lastModified;
     }
 

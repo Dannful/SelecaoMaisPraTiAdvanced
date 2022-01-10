@@ -6,9 +6,6 @@ package me.dannly.maispratiadvanced.data.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import me.dannly.maispratiadvanced.domain.model.Person;
 import me.dannly.maispratiadvanced.domain.model.Student;
 import me.dannly.maispratiadvanced.domain.repository.DatabaseRepository;
@@ -20,7 +17,18 @@ import me.dannly.maispratiadvanced.domain.repository.DatabaseRepository;
 public class PersonDAO extends DatabaseRepository<Person> {
 
     public PersonDAO() {
-        super("INSERT INTO people (id, name, phone, birth, last_modified, age, score, created_at)"
+        super("CREATE TABLE IF NOT EXISTS `mydb`.`people` (\n"
+                + "  `id` INT(11) NOT NULL AUTO_INCREMENT,\n"
+                + "  `name` VARCHAR(45) CHARACTER SET 'utf8' NOT NULL,\n"
+                + "  `phone` BIGINT(14) UNSIGNED NOT NULL,\n"
+                + "  `birth` BIGINT(20) NOT NULL,\n"
+                + "  `last_modified` BIGINT(20) NOT NULL,\n"
+                + "  `age` TINYINT(3) UNSIGNED NOT NULL,\n"
+                + "  `score` DECIMAL UNSIGNED NULL DEFAULT NULL,\n"
+                + "  `created_at` BIGINT(20) NOT NULL,\n"
+                + "  PRIMARY KEY (`id`),\n"
+                + "  UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE,\n"
+                + "  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)\n", "INSERT INTO people (id, name, phone, birth, last_modified, age, score, created_at)"
                 + " VALUES(?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE name=?, "
                 + "phone=?, birth=?, last_modified=?, age=?, score=?, created_at=?",
                 "DELETE FROM people WHERE id = ?", "SELECT * FROM people");
@@ -32,9 +40,9 @@ public class PersonDAO extends DatabaseRepository<Person> {
         return new Object[]{
             value.getId(),
             value.getName(), value.getPhone(),
-            value.getBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-            value.getLastModified().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
-            value.getAge(), score, value.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))};
+            value.getBirth(),
+            value.getLastModified(),
+            value.getAge(), score, value.getCreatedAt()};
     }
 
     @Override
@@ -48,9 +56,9 @@ public class PersonDAO extends DatabaseRepository<Person> {
             Double score = resultSet.getObject("score", Double.class);
             final int id = resultSet.getInt("id");
             final String name = resultSet.getString("name");
-            final LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-            final LocalDate birth = resultSet.getDate("birth").toLocalDate();
-            final LocalDateTime lastModified = resultSet.getTimestamp("last_modified").toLocalDateTime();
+            final long createdAt = resultSet.getLong("created_at");
+            final long birth = resultSet.getLong("birth");
+            final long lastModified = resultSet.getLong("last_modified");
             final long phone = resultSet.getLong("phone");
             final short age = resultSet.getShort("age");
             return score == null ? new Person(id, name, createdAt, birth, lastModified, phone, age) : new Student(id, name, createdAt, birth, lastModified, phone, age, score);

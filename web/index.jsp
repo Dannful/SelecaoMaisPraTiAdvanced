@@ -4,6 +4,8 @@
     Author     : vinix
 --%>
 
+<%@page import="java.time.ZoneId"%>
+<%@page import="java.time.Instant"%>
 <%@page import="me.dannly.maispratiadvanced.data.repository.PersonDAO"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="me.dannly.maispratiadvanced.domain.model.Student"%>
@@ -66,9 +68,9 @@
                         <td>${person.name}</td>
                         <td>${person.phone}</td>
                         <td>${person.age}</td>
-                        <td><%=((Person) pageContext.getAttribute("person")).getBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></td>
-                        <td><%=((Person) pageContext.getAttribute("person")).getLastModified().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss"))%></td>
-                        <td><%=((Person) pageContext.getAttribute("person")).getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss"))%></td>
+                        <td><%=Instant.ofEpochMilli(((Person) pageContext.getAttribute("person")).getBirth()).atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))%></td>
+                        <td><%=Instant.ofEpochMilli(((Person) pageContext.getAttribute("person")).getLastModified()).atZone(ZoneId.systemDefault()).toLocalDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss"))%></td>
+                        <td><%=Instant.ofEpochMilli(((Person) pageContext.getAttribute("person")).getCreatedAt()).atZone(ZoneId.systemDefault()).toLocalDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss"))%></td>
                         <td><%=((Person) pageContext.getAttribute("person")) instanceof Student ? ((Student) pageContext.getAttribute("person")).getScore() : "-"%></td>
                         <td>
                             <form action="PersonProcesser" method="post" id="delete${person.id}">

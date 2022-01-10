@@ -6,7 +6,7 @@ package me.dannly.maispratiadvanced.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -90,7 +90,7 @@ public class PersonProcesser extends HttpServlet {
         final Double score = tryParseDouble(request.getParameter("score"));
 
         if (id == null) {
-            final Person person = new Person(null, name, LocalDateTime.now(), birth, LocalDateTime.now(), phone, age);
+            final Person person = new Person(null, name, System.currentTimeMillis(), birth.atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000, System.currentTimeMillis(), phone, age);
             personDAO.insert(score == null ? person : person.toStudent(score));
         } else {
             final Person saved = personDAO.getElementsByFilter("id = ?", id).get(0);
@@ -101,12 +101,12 @@ public class PersonProcesser extends HttpServlet {
                 saved.setPhone(phone);
             }
             if (birth != null) {
-                saved.setBirth(birth);
+                saved.setBirth(birth.atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000);
             }
             if (age != null) {
                 saved.setAge(age);
             }
-            saved.setLastModified(LocalDateTime.now());
+            saved.setLastModified(System.currentTimeMillis());
             personDAO.insert(score == null ? saved : saved.toStudent(score));
         }
         response.sendRedirect("index.jsp");

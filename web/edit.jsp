@@ -4,6 +4,8 @@
     Author     : vinix
 --%>
 
+<%@page import="java.time.ZoneId"%>
+<%@page import="java.time.Instant"%>
 <%@page import="me.dannly.maispratiadvanced.data.repository.PersonDAO"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="me.dannly.maispratiadvanced.domain.model.Student"%>
@@ -69,7 +71,7 @@
                 <div class="form-group col mx-2">
                     <label for="birth">Data de nascimento</label>
                     <input type="date" class="form-control" id="birth" name="birth" placeholder="Data de nascimento" ${param.id == null ? "required" : ""}
-                           value='<%=request.getParameter("id") == null ? "" : person.getBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))%>'>
+                           value='<%=request.getParameter("id") == null ? "" : Instant.ofEpochMilli(person.getBirth()).atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))%>'>
                 </div>
                 <div class="form-group col mx-2">
                     <label for="age">Idade</label>
