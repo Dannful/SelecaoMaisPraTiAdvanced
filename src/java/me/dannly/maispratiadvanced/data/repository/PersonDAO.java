@@ -18,17 +18,18 @@ public class PersonDAO extends DatabaseRepository<Person> {
 
     public PersonDAO() {
         super("CREATE TABLE IF NOT EXISTS `mydb`.`people` (\n"
-                + "  `id` INT(11) NOT NULL AUTO_INCREMENT,\n"
+                + "  `id` INT NOT NULL AUTO_INCREMENT,\n"
                 + "  `name` VARCHAR(45) CHARACTER SET 'utf8' NOT NULL,\n"
                 + "  `phone` BIGINT(14) UNSIGNED NOT NULL,\n"
-                + "  `birth` BIGINT(20) NOT NULL,\n"
-                + "  `last_modified` BIGINT(20) NOT NULL,\n"
+                + "  `birth` BIGINT NOT NULL,\n"
+                + "  `last_modified` BIGINT NOT NULL,\n"
                 + "  `age` TINYINT(3) UNSIGNED NOT NULL,\n"
-                + "  `score` DECIMAL UNSIGNED NULL DEFAULT NULL,\n"
-                + "  `created_at` BIGINT(20) NOT NULL,\n"
+                + "  `score` DECIMAL UNSIGNED NULL,\n"
+                + "  `created_at` DATETIME NOT NULL,\n"
                 + "  PRIMARY KEY (`id`),\n"
                 + "  UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE,\n"
-                + "  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)\n", "INSERT INTO people (id, name, phone, birth, last_modified, age, score, created_at)"
+                + "  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)\n"
+                + "ENGINE = InnoDB", "INSERT INTO people (id, name, phone, birth, last_modified, age, score, created_at)"
                 + " VALUES(?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE name=?, "
                 + "phone=?, birth=?, last_modified=?, age=?, score=?, created_at=?",
                 "DELETE FROM people WHERE id = ?", "SELECT * FROM people");
